@@ -62,6 +62,39 @@ let articles = [
         timestamp: "6am",
         image: "https://larrybrownsports.com/wp-content/uploads/2022/02/j-cole.jpg",
         alt: "jcole smiling wearing denim jacket"
+    },
+    {
+        id: 3,
+        title: "Square Enix",
+        description: "Upcoming Donkey Kong game",
+        content: `
+        A donkey kong game is coming up. Should be fire
+        `,
+        timestamp: "7am",
+        image: "https://images.nintendolife.com/f98f626232369/donkey-kong.large.jpg",
+        alt: "donkey and diddy kong in jungle"
+    },
+    {
+        id: 4,
+        title: "Namco",
+        description: "Tekken 8 released",
+        content: `
+        Wow it's finally out!
+        `,
+        timestamp: "7pm",
+        image: "https://i.ytimg.com/vi/2hPuRQz6IlM/maxresdefault.jpg",
+        alt: "jin standing in flames"
+    },
+    {
+        id: 5,
+        title: "MMA news",
+        description: "Israel Adeysana said something wack",
+        content: `
+        No one can believe it
+        `,
+        timestamp: "7am",
+        image: "https://mmajunkie.usatoday.com/wp-content/uploads/sites/91/2022/07/Israel-Adesanya-UFC-276-press-conference-02.jpg?w=640",
+        alt: "israel flexing during UFC weigh in"
     }
 
 ];
