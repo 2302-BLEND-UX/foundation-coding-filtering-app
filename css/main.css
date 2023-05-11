@@ -19,6 +19,15 @@
   font-size: 12px;
   margin-bottom: 10px;
 }
+#article-container .article .pill {
+  background: #fe7644;
+  padding: 5px 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: white;
+}
 #article-container .article .readmore-button {
   margin-top: 10px;
   border: none;
@@ -29,6 +38,9 @@
   background: #dfdfdf;
   font-weight: 600;
   border-radius: 10px;
+}
+#article-container .article .readmore-button:hover {
+  cursor: pointer;
 }
 #article-container .article img {
   width: 100%;
@@ -76,6 +88,9 @@
   padding: 5px;
   border-radius: 5px;
 }
+#toolbar #filter-form {
+  margin-bottom: 10px;
+}
 
 #status-update {
   padding: 10px;
@@ -92,6 +107,7 @@
 @media screen and (min-width: 768px) {
   #article-container {
     padding: 50px;
+    padding-top: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;

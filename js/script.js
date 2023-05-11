@@ -8,6 +8,7 @@ const closeButton = document.getElementById("close-button");
 // toolbar elements
 const searchInput = document.getElementById("search-box");
 const submitSearch = document.getElementById("submit-search");
+const filterSubmitBtn = document.getElementById("filter-submit");
 // status box
 const statusUpdate = document.getElementById("status-update");
 
@@ -17,6 +18,7 @@ let articles = [
     {
         id: 0,
         title: "MMA Fighting",
+        category: "MMA",
         description: "Conor McGregor doesn't mess around",
         content: `
         <p>
@@ -43,6 +45,7 @@ let articles = [
     {
         id: 1,
         title: "Gamespot",
+        category: "Gaming",
         description: "Diablo 4 released!",
         content: `Diablo 4 is an upcoming action role-playing game developed and published by Blizzard Entertainment. It is the fourth installment in the popular Diablo franchise and is set in a dark and foreboding world filled with demons and other supernatural creatures. 
         <br>
@@ -55,6 +58,7 @@ let articles = [
     {
         id: 2,
         title: "J Cole",
+        category: "Music",
         description: "Released a new album",
         content: `
         J. Cole, born Jermaine Lamarr Cole on January 28, 1985, is an American rapper, singer, and producer from Fayetteville, North Carolina. He first gained recognition with his mixtapes and debut album "Cole World: The Sideline Story" in 2011, which peaked at number one on the US Billboard 200. Cole's music is known for its introspective and socially conscious themes, often tackling issues such as race, politics, and social inequality. He has released several critically acclaimed albums, including "2014 Forest Hills Drive," which was certified double platinum and nominated for a Grammy Award for Best Rap Album. Cole is widely regarded as one of the most talented and influential rappers of his generation.
@@ -66,6 +70,7 @@ let articles = [
     {
         id: 3,
         title: "Square Enix",
+        category: "Gaming",
         description: "Upcoming Donkey Kong game",
         content: `
         A donkey kong game is coming up. Should be fire
@@ -77,6 +82,7 @@ let articles = [
     {
         id: 4,
         title: "Namco",
+        category: "Gaming",
         description: "Tekken 8 released",
         content: `
         Wow it's finally out!
@@ -88,6 +94,7 @@ let articles = [
     {
         id: 5,
         title: "MMA news",
+        category: "MMA",
         description: "Israel Adeysana said something wack",
         content: `
         No one can believe it
@@ -107,6 +114,9 @@ for (let i = 0; i < articles.length; i++) {
         <img src="${articles[i].image}" alt="${articles[i].alt}">
         <h2>${articles[i].title}</h2>
         <p class="date-tag">${articles[i].timestamp}</p>
+        <div>
+            <span class="pill">${articles[i].category}</span>
+        </div>
         <p>${articles[i].description}</p>
         <button data-id="${articles[i].id}" class="readmore-button">Read more<button>
     </div>
@@ -162,7 +172,7 @@ function searchArticles(e) {
     // check if the search string is empty
     if (searchString === "") {
         statusUpdate.innerHTML = "Please enter a search term";
-        statusUpdate.classList.toggle("active");
+        statusUpdate.classList.add("active");
         return;
     }
     // start filtering results
@@ -176,6 +186,9 @@ function renderArticle(article) {
         <img src="${article.image}" alt="${article.alt}">
         <h2>${article.title}</h2>
         <p class="date-tag">${article.timestamp}</p>
+        <div>
+            <span class="pill">${articles[i].category}</span>
+        </div>
         <p>${article.description}</p>
         <button data-id="${article.id}" class="readmore-button">Read more<button>
     </div>
@@ -187,27 +200,63 @@ function findMatch(string) {
     articleContainer.innerHTML = "";
     // declare a variable which determines if there's a match
     let match = false;
+    let matchedArticles = 0;
     // convert our search string to lower case
     let stringLowercase = string.toLowerCase();
-    console.log(stringLowercase);
-    // loop through all the articles, to match the search string to the description
+    // console.log(stringLowercase);
+    // loop through all the articles, to match the search string to the description/title
     for (let i = 0; i < articles.length; i++) {
-        if (articles[i].description.toLowerCase().match(stringLowercase)) {
+        if (articles[i].description.toLowerCase().match(stringLowercase) || articles[i].title.toLowerCase().match(stringLowercase)) {
             // console.log("We found a match!");
             // console.log(articles[i]);
             match = true;
+            matchedArticles++;
+            // change the status to show the number of results, and search term
+            statusUpdate.innerHTML = `Showing ${matchedArticles} results for the search "${string}".`
+            statusUpdate.classList.add("active");
             // ran a function which will show the article on the screen
             // pass in the article which matches to the search, as an argument
             renderArticle(articles[i]);
         }
     }
+    addButtonEvents();
     // the loop has finished
     // !match is the same as match === false
     if (!match) {
-        console.log("No match found!");
+        // console.log("No match found!");
+        statusUpdate.innerHTML = `No match found for the term "${string}".`;
+        statusUpdate.classList.add("active");
     }
 }
 
 submitSearch.addEventListener("click", function () {
+    // run our search articles function, use the JS event variable as an argument
+    // this event variable is automatically used by javascript to give information about what the user is doing
     searchArticles(event);
+})
+
+// ----filter by category----
+
+function filterArticles(e) {
+    event.preventDefault();
+
+    let checkedCategories =
+        document.querySelectorAll("input[type=checkbox]:checked");
+    // console.log(checkedCategories);
+    // check if nothing has been selected
+    if (checkedCategories.length === 0) {
+        console.log("You didn't select anything");
+        return;
+    }
+    // declare an array, this array will be filled with categories which the user has selected
+    let selectedCategories = [];
+    for (let i = 0; i < checkedCategories.length; i++) {
+        // we're looping over all the checked catagories, and putting their values into another array called selectedCategories
+        selectedCategories.push(checkedCategories[i].value)
+    }
+    console.log(selectedCategories);
+}
+
+filterSubmitBtn.addEventListener("click", function () {
+    filterArticles(event);
 })

@@ -17,6 +17,16 @@
             margin-bottom: 10px;
         }
 
+        .pill {
+            background: #fe7644;
+            padding: 5px 8px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: white;
+        }
+
         .readmore-button {
             margin-top: 10px;
             border: none;
@@ -27,6 +37,10 @@
             background: #dfdfdf;
             font-weight: 600;
             border-radius: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         img {
@@ -82,6 +96,10 @@
     button {
         padding: 5px;
         border-radius: 5px;
+    }
+
+    #filter-form {
+        margin-bottom: 10px;
     }
 }
 

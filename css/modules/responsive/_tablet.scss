@@ -2,6 +2,7 @@
 
     #article-container {
         padding: 50px;
+        padding-top: 0;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
