@@ -187,7 +187,7 @@ function renderArticle(article) {
         <h2>${article.title}</h2>
         <p class="date-tag">${article.timestamp}</p>
         <div>
-            <span class="pill">${articles[i].category}</span>
+            <span class="pill">${articles.category}</span>
         </div>
         <p>${article.description}</p>
         <button data-id="${article.id}" class="readmore-button">Read more<button>
