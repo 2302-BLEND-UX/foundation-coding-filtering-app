@@ -88,6 +88,9 @@
   padding: 5px;
   border-radius: 5px;
 }
+#toolbar button:hover {
+  cursor: pointer;
+}
 #toolbar #filter-form {
   margin-bottom: 10px;
 }

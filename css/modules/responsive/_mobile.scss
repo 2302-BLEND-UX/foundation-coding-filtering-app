@@ -98,6 +98,12 @@
         border-radius: 5px;
     }
 
+    button {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
     #filter-form {
         margin-bottom: 10px;
     }

@@ -108,8 +108,11 @@ let articles = [
 
 // creating a loop which shows all the articles, and puts them into the article container
 
-for (let i = 0; i < articles.length; i++) {
-    articleContainer.innerHTML += `
+function displayAllArticles() {
+    articleContainer.innerHTML = "";
+    // this loops through all the articles and appends them to the article container
+    for (let i = 0; i < articles.length; i++) {
+        articleContainer.innerHTML += `
     <div class="article">
         <img src="${articles[i].image}" alt="${articles[i].alt}">
         <h2>${articles[i].title}</h2>
@@ -118,11 +121,11 @@ for (let i = 0; i < articles.length; i++) {
             <span class="pill">${articles[i].category}</span>
         </div>
         <p>${articles[i].description}</p>
-        <button data-id="${articles[i].id}" class="readmore-button">Read more<button>
+        <button data-id="${articles[i].id}" class="readmore-button">Read more</button>
     </div>
     `
+    }
 }
-
 
 
 function openModal(content) {
@@ -159,9 +162,6 @@ closeButton.addEventListener("click", function () {
     modal.classList.toggle("active");
 });
 
-// collect all the buttons and attach their listeners
-addButtonEvents();
-
 // ---search functionality---
 
 function searchArticles(e) {
@@ -187,10 +187,10 @@ function renderArticle(article) {
         <h2>${article.title}</h2>
         <p class="date-tag">${article.timestamp}</p>
         <div>
-            <span class="pill">${articles.category}</span>
+            <span class="pill">${article.category}</span>
         </div>
         <p>${article.description}</p>
-        <button data-id="${article.id}" class="readmore-button">Read more<button>
+        <button data-id="${article.id}" class="readmore-button">Read more</button>
     </div>
     `
 }
@@ -206,7 +206,7 @@ function findMatch(string) {
     // console.log(stringLowercase);
     // loop through all the articles, to match the search string to the description/title
     for (let i = 0; i < articles.length; i++) {
-        if (articles[i].description.toLowerCase().match(stringLowercase) || articles[i].title.toLowerCase().match(stringLowercase)) {
+        if (articles[i].description.toLowerCase().match(stringLowercase) || articles[i].title.toLowerCase().match(stringLowercase) || articles[i].category.toLowerCase().match(stringLowercase)) {
             // console.log("We found a match!");
             // console.log(articles[i]);
             match = true;
@@ -235,28 +235,96 @@ submitSearch.addEventListener("click", function () {
     searchArticles(event);
 })
 
-// ----filter by category----
+// -------------------filter by category---------------------------
 
-function filterArticles(e) {
-    event.preventDefault();
+function filterBySelectedCategory(categories) {
+    // at this point we know for certain the user has selected a category
 
-    let checkedCategories =
-        document.querySelectorAll("input[type=checkbox]:checked");
-    // console.log(checkedCategories);
-    // check if nothing has been selected
-    if (checkedCategories.length === 0) {
-        console.log("You didn't select anything");
-        return;
-    }
-    // declare an array, this array will be filled with categories which the user has selected
-    let selectedCategories = [];
-    for (let i = 0; i < checkedCategories.length; i++) {
-        // we're looping over all the checked catagories, and putting their values into another array called selectedCategories
-        selectedCategories.push(checkedCategories[i].value)
-    }
-    console.log(selectedCategories);
+    // so we can show our status, to reflect the selected categories
+    statusUpdate.innerHTML = `Filtering articles by: ${categories}`
+    statusUpdate.classList.add("active");
+
+    // so we clear our articles
+    articleContainer.innerHTML = "";
+    // loop through each selected category, and compare each one with our articles =
+    for (let i = 0; i < categories.length; i++) {
+        // check if our selected category is equal to gaming
+        if (categories[i] === "Gaming") {
+            // loop through our articles
+            for (let index = 0; index < articles.length; index++) {
+                // check if the article category is gaming
+                if (articles[index].category === "Gaming") {
+                    // console.log(articles[index]);
+                    renderArticle(articles[index]);
+                }
+            }
+        }
+        // check if our selected category is equal to MMA
+        if (categories[i] === "MMA") {
+            // loop through our articles
+            for (let index = 0; index < articles.length; index++) {
+                if (articles[index].category === "MMA") {
+                    renderArticle(articles[index]);
+                }
+            }
+        }
+        // check if our selected category is equal to Music
+        if (categories[i] === "Music") {
+            // loop through our articles
+            for (let index = 0; index < articles.length; index++) {
+                if (articles[index].category === "Music") {
+                    renderArticle(articles[index]);
+                }
+            }
+        }
+    } //end of our category loop
+    // by this stage, we have checked across all our selected categories, and matched them to our articles, and shown new articles on the screen that match those categories
+
+    // collect all the buttons and attach their listeners
+    addButtonEvents();
 }
 
+function filterArticles(e) {
+    e.preventDefault();
+    // gather every checkbox that has been checked
+    let checkedCategories =
+        document.querySelectorAll("input[type=checkbox]:checked");
+
+    // console.log(`here's our checked categeries`);
+    // console.log(checkedCategories);
+
+    // check if nothing has been selected
+    if (checkedCategories.length === 0) {
+        // console.log("You didn't select anything");
+
+        // so we can show our status, to reflect the selected categories
+        statusUpdate.innerHTML = `No filters selected - showing all articles.`
+        statusUpdate.classList.add("active");
+        // display a full list of articles
+        displayAllArticles();
+        // collect all the buttons and attach their listeners
+        addButtonEvents();
+        return;
+    }
+
+    // declare an array, this array will be filled with categories which the user has selected
+    let selectedCategories = [];
+
+    for (let i = 0; i < checkedCategories.length; i++) {
+        // we're looping over all the checked catagories, and putting their values into another array called selectedCategories
+        selectedCategories.push(checkedCategories[i].value);
+    }
+    // console.log(selectedCategories);
+    filterBySelectedCategory(selectedCategories);
+}
+
+// user has clicked the filter by category button
 filterSubmitBtn.addEventListener("click", function () {
+    // event will help us avoid the refresh
     filterArticles(event);
 })
+
+// start our app by displaying all the articles
+displayAllArticles();
+// collect all the buttons and attach their listeners
+addButtonEvents();
